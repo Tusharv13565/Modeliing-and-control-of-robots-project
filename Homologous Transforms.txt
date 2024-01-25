@@ -1,0 +1,27 @@
+syms a1 a2 a3 a4 a5 a6;
+a1 = 6;
+a2 = 3;
+a3 = 3;
+a4 = 0.5;
+a5 = 1.5;
+a6 = 1.5;
+
+% Define Robot Links
+L1 = Link('d', a1, 'a', 0, 'alpha', pi/2);
+L1.qlim = pi/180*[-90 90];
+L2 = Link('d', 0, 'a', a2, 'alpha', pi/2, 'offset', pi/2);
+L2.qlim = pi/180*[-90 90];
+L3 = Link('d', 0, 'a', 0, 'alpha', 0, 'offset', 1, 'qlim', [0 3]);
+L4 = Link('d', a4, 'a', 0, 'alpha', 3*pi/2);
+L4.qlim = pi/180*[-90 90];
+L5 = Link('d', 0, 'a', 0, 'alpha', pi/2, 'offset', 3*pi/2);
+L5.qlim = pi/180*[0 90];
+L6 = Link('d', a5+a6, 'a', 0, 'alpha', 0);
+L6.qlim = pi/180*[-90 90];
+
+% Create SerialLink object
+NS = SerialLink([L1 L2 L3 L4 L5 L6], 'name', '6 DOF arm');
+
+% Plot robot
+NS.plot([0 0 0 0 0 0], 'workspace', [-15 15 -15 15 -15 15]);
+NS.teach;
